@@ -247,7 +247,7 @@ const Auth = () => {
       const data = await res.json();
       if (data.success) {
         console.log("Google Login Success:", data.user);
-        // Usually, save the returned JWT token to localStorage here
+        localStorage.setItem('user', JSON.stringify(data.user));
         window.location.href = '/'; // Redirect to dashboard or home
       } else {
         alert(data.message || 'Login failed');

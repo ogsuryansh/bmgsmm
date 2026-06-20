@@ -5,6 +5,23 @@ import { motion, AnimatePresence } from 'framer-motion';
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      try {
+        setUser(JSON.parse(storedUser));
+      } catch (e) {
+        console.error("Failed to parse user from local storage");
+      }
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    setUser(null);
+  };
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 20);
@@ -28,17 +45,36 @@ const Navbar = () => {
           <a href="/#engine">Engine</a>
           <a href="/#demo">Demo</a>
           <a href="/#why">Why Us</a>
-          <a href="/#pricing">Pricing</a>
           <a href="/#contact">Contact</a>
         </div>
 
         <div className="nav-right">
-          <Link to="/auth" className="btn btn-ghost" style={{ fontSize: '0.9rem', padding: '10px 20px' }}>
-            Login
-          </Link>
-          <Link to="/auth" className="btn btn-primary" style={{ fontSize: '0.9rem', padding: '10px 20px' }}>
-            Get Started
-          </Link>
+          {user ? (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                {user.picture ? (
+                  <img src={user.picture} alt={user.name} style={{ width: '36px', height: '36px', borderRadius: '50%', objectFit: 'cover', border: '1px solid #E5E7EB' }} />
+                ) : (
+                  <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: '#10B981', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold' }}>
+                    {user.name.charAt(0)}
+                  </div>
+                )}
+                <span style={{ fontSize: '0.9rem', fontWeight: 600, color: '#374151' }}>{user.name}</span>
+              </div>
+              <button onClick={handleLogout} className="btn btn-ghost" style={{ fontSize: '0.85rem', padding: '8px 16px' }}>
+                Logout
+              </button>
+            </div>
+          ) : (
+            <>
+              <Link to="/auth" className="btn btn-ghost" style={{ fontSize: '0.9rem', padding: '10px 20px' }}>
+                Login
+              </Link>
+              <Link to="/auth" className="btn btn-primary" style={{ fontSize: '0.9rem', padding: '10px 20px' }}>
+                Get Started
+              </Link>
+            </>
+          )}
         </div>
 
         {/* Mobile Toggle Button */}
@@ -85,16 +121,38 @@ const Navbar = () => {
                 <a href="/#engine" onClick={() => setMobileOpen(false)}>Engine</a>
                 <a href="/#demo" onClick={() => setMobileOpen(false)}>Demo</a>
                 <a href="/#why" onClick={() => setMobileOpen(false)}>Why Us</a>
-                <a href="/#pricing" onClick={() => setMobileOpen(false)}>Pricing</a>
                 <a href="/#contact" onClick={() => setMobileOpen(false)}>Contact</a>
               </div>
               <div className="mobile-actions">
-                <Link to="/auth" className="btn btn-ghost" style={{ width: '100%', justifyContent: 'center' }} onClick={() => setMobileOpen(false)}>
-                  Login
-                </Link>
-                <Link to="/auth" className="btn btn-primary" style={{ width: '100%', justifyContent: 'center' }} onClick={() => setMobileOpen(false)}>
-                  Get Started
-                </Link>
+                {user ? (
+                  <>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px', padding: '0 8px' }}>
+                      {user.picture ? (
+                        <img src={user.picture} alt={user.name} style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover', border: '1px solid #E5E7EB' }} />
+                      ) : (
+                        <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: '#10B981', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold' }}>
+                          {user.name.charAt(0)}
+                        </div>
+                      )}
+                      <div>
+                        <div style={{ fontSize: '0.95rem', fontWeight: 600, color: '#111827' }}>{user.name}</div>
+                        <div style={{ fontSize: '0.8rem', color: '#6B7280' }}>{user.email}</div>
+                      </div>
+                    </div>
+                    <button onClick={() => { handleLogout(); setMobileOpen(false); }} className="btn btn-ghost" style={{ width: '100%', justifyContent: 'center' }}>
+                      Logout
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link to="/auth" className="btn btn-ghost" style={{ width: '100%', justifyContent: 'center' }} onClick={() => setMobileOpen(false)}>
+                      Login
+                    </Link>
+                    <Link to="/auth" className="btn btn-primary" style={{ width: '100%', justifyContent: 'center' }} onClick={() => setMobileOpen(false)}>
+                      Get Started
+                    </Link>
+                  </>
+                )}
               </div>
             </motion.div>
           </>
