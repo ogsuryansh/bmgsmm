@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid
@@ -128,9 +129,9 @@ const Hero = () => (
       </motion.p>
 
       <motion.div className="hero-actions" initial="hidden" animate="visible" variants={fadeUp} custom={3}>
-        <button className="btn btn-primary" style={{ fontSize: '1rem', padding: '14px 30px' }}>
+        <Link to="/dashboard" className="btn btn-primary" style={{ fontSize: '1rem', padding: '14px 30px', textDecoration: 'none' }}>
           Start Growing Naturally
-        </button>
+        </Link>
         <button className="btn btn-ghost" style={{ fontSize: '1rem', padding: '14px 30px' }}>
           See How It Works
         </button>
