@@ -10,6 +10,7 @@ import Stats from './components/Stats';
 import { Testimonials, Services, CTA, Footer } from './components/Sections';
 import Auth from './components/Auth';
 import Admin from './components/Admin';
+import Dashboard from './components/Dashboard';
 
 const Landing = () => (
   <>
@@ -37,6 +38,7 @@ function App() {
         <Route path="/login" element={<Auth />} />
         <Route path="/signup" element={<Auth />} />
         <Route path="/admin" element={<Admin />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </BrowserRouter>
   );

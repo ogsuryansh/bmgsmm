@@ -61,6 +61,9 @@ const Navbar = () => {
                 )}
                 <span style={{ fontSize: '0.9rem', fontWeight: 600, color: '#374151' }}>{user.name}</span>
               </div>
+              <Link to="/dashboard" className="btn btn-primary" style={{ fontSize: '0.85rem', padding: '8px 16px' }}>
+                Dashboard
+              </Link>
               <button onClick={handleLogout} className="btn btn-ghost" style={{ fontSize: '0.85rem', padding: '8px 16px' }}>
                 Logout
               </button>
@@ -139,6 +142,9 @@ const Navbar = () => {
                         <div style={{ fontSize: '0.8rem', color: '#6B7280' }}>{user.email}</div>
                       </div>
                     </div>
+                    <Link to="/dashboard" className="btn btn-primary" style={{ width: '100%', justifyContent: 'center', marginBottom: '8px' }} onClick={() => setMobileOpen(false)}>
+                      Go to Dashboard
+                    </Link>
                     <button onClick={() => { handleLogout(); setMobileOpen(false); }} className="btn btn-ghost" style={{ width: '100%', justifyContent: 'center' }}>
                       Logout
                     </button>
