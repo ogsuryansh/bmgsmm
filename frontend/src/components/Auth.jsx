@@ -248,7 +248,8 @@ const Auth = () => {
       if (data.success) {
         console.log("Google Login Success:", data.user);
         localStorage.setItem('user', JSON.stringify(data.user));
-        window.location.href = '/'; // Redirect to dashboard or home
+        localStorage.setItem('token', data.token);
+        window.location.href = '/dashboard'; // Redirect to dashboard
       } else {
         alert(data.message || 'Login failed');
       }
