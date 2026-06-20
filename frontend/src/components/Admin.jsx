@@ -15,8 +15,9 @@ const Admin = () => {
   const [activeTab, setActiveTab] = useState('users');
   const [users, setUsers] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const [settings, setSettings] = useState({ smmApiUrl: '', smmApiKey: '' });
+  const [settings, setSettings] = useState({ smmApiUrl: '', smmApiKey: '', profitMargin: 20 });
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [syncing, setSyncing] = useState(false);
 
   useEffect(() => {
     if (token) {
@@ -93,6 +94,25 @@ const Admin = () => {
       alert('Error saving settings');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleSyncServices = async () => {
+    if (!settings.smmApiUrl || !settings.smmApiKey) {
+      return alert('Please configure and save SMM API URL and Key first.');
+    }
+    setSyncing(true);
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/sync-services`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const data = await res.json();
+      alert(data.message || 'Sync complete');
+    } catch (err) {
+      alert('Error connecting to backend');
+    } finally {
+      setSyncing(false);
     }
   };
 
@@ -287,11 +307,32 @@ const Admin = () => {
                         />
                       </div>
 
+                      <div>
+                        <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '0.9rem', fontWeight: 600, color: '#334155', marginBottom: 8 }}>
+                          <DollarSign size={16} color="#10B981" /> Global Profit Margin (%)
+                        </label>
+                        <input 
+                          type="number" 
+                          min="0"
+                          placeholder="e.g. 20" 
+                          value={settings.profitMargin}
+                          onChange={e => setSettings({...settings, profitMargin: parseFloat(e.target.value)})}
+                          style={{ width: '100%', padding: '12px 16px', borderRadius: 10, border: '1px solid #E2E8F0', outline: 'none', background: '#F8FAFC', fontSize: '0.95rem' }} 
+                        />
+                        <p style={{ fontSize: '0.8rem', color: '#94A3B8', marginTop: 6 }}>This percentage is automatically added to the provider's cost. (e.g. 20 means adding 20% to cost)</p>
+                      </div>
+
                       <hr style={{ border: 'none', borderTop: '1px solid #E2E8F0', margin: '10px 0' }} />
 
-                      <button type="submit" disabled={loading} style={{ padding: '14px', background: '#10B981', color: '#fff', border: 'none', borderRadius: 10, fontWeight: 600, cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 8, transition: 'background 0.2s' }}>
-                        {loading ? <Loader2 size={18} className="spin" /> : <Save size={18} />} Save Configuration
-                      </button>
+                      <div style={{ display: 'flex', gap: 16 }}>
+                        <button type="submit" disabled={loading} style={{ flex: 1, padding: '14px', background: '#10B981', color: '#fff', border: 'none', borderRadius: 10, fontWeight: 600, cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 8, transition: 'background 0.2s' }}>
+                          {loading ? <Loader2 size={18} className="spin" /> : <Save size={18} />} Save Config
+                        </button>
+
+                        <button type="button" onClick={handleSyncServices} disabled={syncing} style={{ flex: 1, padding: '14px', background: '#0F172A', color: '#fff', border: 'none', borderRadius: 10, fontWeight: 600, cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 8, transition: 'background 0.2s' }}>
+                          {syncing ? <Loader2 size={18} className="spin" /> : '🔄'} {syncing ? 'Syncing...' : 'Sync Services'}
+                        </button>
+                      </div>
 
                     </form>
                   </div>

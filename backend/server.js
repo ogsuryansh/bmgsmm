@@ -108,18 +108,90 @@ app.get('/api/admin/settings', adminAuth, async (req, res) => {
 // Update Settings (Admin)
 app.post('/api/admin/settings', adminAuth, async (req, res) => {
   try {
-    const { smmApiUrl, smmApiKey } = req.body;
+    const { smmApiUrl, smmApiKey, profitMargin } = req.body;
     let settings = await Settings.findOne();
     if (!settings) {
-      settings = await Settings.create({ smmApiUrl, smmApiKey });
+      settings = await Settings.create({ smmApiUrl, smmApiKey, profitMargin });
     } else {
-      settings.smmApiUrl = smmApiUrl;
-      settings.smmApiKey = smmApiKey;
+      if (smmApiUrl !== undefined) settings.smmApiUrl = smmApiUrl;
+      if (smmApiKey !== undefined) settings.smmApiKey = smmApiKey;
+      if (profitMargin !== undefined) settings.profitMargin = profitMargin;
       await settings.save();
     }
     res.json({ success: true, settings });
   } catch (error) {
     res.status(500).json({ success: false, message: 'Server error' });
+  }
+});
+
+// Sync Services (Admin)
+const Service = require('./models/Service');
+app.post('/api/admin/sync-services', adminAuth, async (req, res) => {
+  try {
+    const settings = await Settings.findOne();
+    if (!settings || !settings.smmApiUrl || !settings.smmApiKey) {
+      return res.status(400).json({ success: false, message: 'SMM API URL and Key must be configured first.' });
+    }
+
+    // Standard SMM Panel API Request
+    const formData = new URLSearchParams();
+    formData.append('key', settings.smmApiKey);
+    formData.append('action', 'services');
+
+    const response = await fetch(settings.smmApiUrl, {
+      method: 'POST',
+      body: formData,
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+    });
+
+    const services = await response.json();
+    
+    if (services.error) {
+      return res.status(400).json({ success: false, message: `Upstream error: ${services.error}` });
+    }
+    if (!Array.isArray(services)) {
+      return res.status(400).json({ success: false, message: 'Invalid response from upstream API' });
+    }
+
+    const marginMultiplier = 1 + (settings.profitMargin / 100);
+    let updatedCount = 0;
+    let insertedCount = 0;
+
+    for (let s of services) {
+      const originalRate = parseFloat(s.rate);
+      const sellPrice = parseFloat((originalRate * marginMultiplier).toFixed(4));
+
+      const existing = await Service.findOne({ serviceId: s.service });
+      if (existing) {
+        existing.name = s.name;
+        existing.category = s.category;
+        existing.rate = originalRate;
+        existing.sellPrice = sellPrice;
+        existing.min = s.min;
+        existing.max = s.max;
+        existing.type = s.type;
+        existing.updatedAt = new Date();
+        await existing.save();
+        updatedCount++;
+      } else {
+        await Service.create({
+          serviceId: s.service,
+          name: s.name,
+          category: s.category,
+          rate: originalRate,
+          sellPrice,
+          min: s.min,
+          max: s.max,
+          type: s.type
+        });
+        insertedCount++;
+      }
+    }
+
+    res.json({ success: true, message: `Synced successfully! Inserted: ${insertedCount}, Updated: ${updatedCount}` });
+  } catch (error) {
+    console.error('Sync Error:', error);
+    res.status(500).json({ success: false, message: 'Failed to sync services. Check URL and connectivity.' });
   }
 });
 
