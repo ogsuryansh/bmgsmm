@@ -5,6 +5,7 @@ const UserSchema = new mongoose.Schema({
   name: { type: String, required: true },
   picture: { type: String },
   googleId: { type: String, required: true },
+  balance: { type: Number, default: 0 },
   createdAt: { type: Date, default: Date.now },
 });
 

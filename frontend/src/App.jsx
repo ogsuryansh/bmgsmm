@@ -7,9 +7,9 @@ import Demo from './components/Demo';
 import Engine from './components/Engine';
 import Why from './components/Why';
 import Stats from './components/Stats';
-import Pricing from './components/Pricing';
 import { Testimonials, Services, CTA, Footer } from './components/Sections';
 import Auth from './components/Auth';
+import Admin from './components/Admin';
 
 const Landing = () => (
   <>
@@ -22,7 +22,6 @@ const Landing = () => (
       <Stats />
       <Services />
       <Testimonials />
-      <Pricing />
       <CTA />
       <Footer />
     </div>
@@ -37,6 +36,7 @@ function App() {
         <Route path="/auth" element={<Auth />} />
         <Route path="/login" element={<Auth />} />
         <Route path="/signup" element={<Auth />} />
+        <Route path="/admin" element={<Admin />} />
       </Routes>
     </BrowserRouter>
   );
