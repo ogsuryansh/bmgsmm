@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Eye, EyeOff, ArrowLeft, Check, Loader2 } from 'lucide-react';
+import { useGoogleLogin } from '@react-oauth/google';
 
 /* ---------- Google SVG Icon ---------- */
 const GoogleIcon = () => (
@@ -235,6 +236,35 @@ const Auth = () => {
     setForm({ name: '', email: '', password: '', confirm: '' });
   };
 
+  const handleGoogleSuccess = async (tokenResponse) => {
+    setLoading(true);
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/google`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ credential: tokenResponse.access_token })
+      });
+      const data = await res.json();
+      if (data.success) {
+        console.log("Google Login Success:", data.user);
+        // Usually, save the returned JWT token to localStorage here
+        window.location.href = '/'; // Redirect to dashboard or home
+      } else {
+        alert(data.message || 'Login failed');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Failed to connect to the server. Is the backend running?');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const loginWithGoogle = useGoogleLogin({
+    onSuccess: handleGoogleSuccess,
+    onError: () => alert('Google Sign-In Failed')
+  });
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
@@ -449,6 +479,7 @@ const Auth = () => {
               {/* Google button */}
               <motion.button
                 type="button"
+                onClick={() => loginWithGoogle()}
                 whileHover={{ scale: 1.01, boxShadow: '0 4px 20px rgba(0,0,0,0.1)' }}
                 whileTap={{ scale: 0.98 }}
                 style={{
