@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { PlusCircle, List, Wallet, Key, Loader2, DollarSign, ArrowRight } from 'lucide-react';
+import { PlusCircle, List, Wallet, Key, Loader2, IndianRupee, ArrowRight } from 'lucide-react';
 
 const Dashboard = () => {
   const [user, setUser] = useState(null);
@@ -73,7 +73,7 @@ const Dashboard = () => {
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, background: '#F8FAFC', padding: '8px 16px', borderRadius: 100, border: '1px solid #E2E8F0' }}>
             <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#10B981' }} />
             <span style={{ fontSize: '0.85rem', color: '#64748B', fontWeight: 500 }}>Balance:</span>
-            <span style={{ fontSize: '0.95rem', fontWeight: 700, color: '#0F172A' }}>${(user.balance || 0).toFixed(2)}</span>
+            <span style={{ fontSize: '0.95rem', fontWeight: 700, color: '#0F172A' }}>₹{(user.balance || 0).toFixed(2)}</span>
           </div>
         </div>
 
@@ -93,7 +93,7 @@ const Dashboard = () => {
                         <Wallet size={16} color="#10B981" /> Current Balance
                       </div>
                       <div style={{ fontSize: '3rem', fontWeight: 800, fontFamily: 'Sora', display: 'flex', alignItems: 'flex-start' }}>
-                        <span style={{ fontSize: '1.5rem', marginTop: 8, marginRight: 4, color: '#10B981' }}>$</span>
+                        <span style={{ fontSize: '1.5rem', marginTop: 8, marginRight: 4, color: '#10B981' }}>₹</span>
                         {(user.balance || 0).toFixed(2)}
                       </div>
                       <div style={{ marginTop: 32, fontSize: '0.85rem', color: '#64748B', display: 'flex', justifyContent: 'space-between' }}>
@@ -109,13 +109,13 @@ const Dashboard = () => {
                   <div style={{ background: '#fff', borderRadius: 24, padding: 32, border: '1px solid #E2E8F0', boxShadow: '0 10px 30px rgba(0,0,0,0.02)' }}>
                     <h2 style={{ fontSize: '1.2rem', fontWeight: 700, color: '#0F172A', marginBottom: 24 }}>Add Funds</h2>
                     
-                    <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: '#334155', marginBottom: 8 }}>Amount ($)</label>
+                    <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: '#334155', marginBottom: 8 }}>Amount (₹)</label>
                     <div style={{ position: 'relative', marginBottom: 24 }}>
-                      <DollarSign size={18} color="#94A3B8" style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)' }} />
+                      <IndianRupee size={18} color="#94A3B8" style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)' }} />
                       <input 
                         type="number" 
                         min="1"
-                        placeholder="10.00" 
+                        placeholder="100.00" 
                         value={amount}
                         onChange={e => setAmount(e.target.value)}
                         style={{ width: '100%', padding: '14px 16px 14px 44px', borderRadius: 12, border: '1.5px solid #E2E8F0', outline: 'none', background: '#F8FAFC', fontSize: '1.05rem', fontWeight: 600, color: '#0F172A', transition: 'border-color 0.2s' }} 

@@ -71,7 +71,7 @@ const Navbar = () => {
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                   <Wallet size={15} />
-                  <span>${(user.balance || 0).toFixed(2)}</span>
+                  <span>₹{(user.balance || 0).toFixed(2)}</span>
                 </div>
                 <div style={{ background: '#10B981', color: 'white', borderRadius: '50%', width: 20, height: 20, display: 'flex', alignItems: 'center', justifyContent: 'center', marginLeft: 4 }}>
                   <Plus size={14} strokeWidth={3} />
@@ -161,7 +161,7 @@ const Navbar = () => {
                       padding: '12px', borderRadius: '12px', textDecoration: 'none',
                       color: '#10B981', fontWeight: 600, fontSize: '0.9rem', width: '100%', marginBottom: '8px'
                     }} onClick={() => setMobileOpen(false)}>
-                      <Wallet size={16} /> ${(user.balance || 0).toFixed(2)}
+                      <Wallet size={16} /> ₹{(user.balance || 0).toFixed(2)}
                       <div style={{ background: '#10B981', color: 'white', borderRadius: '50%', width: 22, height: 22, display: 'flex', alignItems: 'center', justifyContent: 'center', marginLeft: 4 }}>
                         <Plus size={15} strokeWidth={3} />
                       </div>
