@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Wallet, Plus } from 'lucide-react';
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -61,8 +62,20 @@ const Navbar = () => {
                 )}
                 <span style={{ fontSize: '0.9rem', fontWeight: 600, color: '#374151' }}>{user.name}</span>
               </div>
-              <Link to="/dashboard" className="btn btn-primary" style={{ fontSize: '0.85rem', padding: '8px 16px' }}>
-                Dashboard
+              <Link to="/dashboard" style={{
+                display: 'flex', alignItems: 'center', gap: '8px',
+                background: 'rgba(16,185,129,0.1)', border: '1px solid rgba(16,185,129,0.2)',
+                padding: '6px 14px', borderRadius: '100px', textDecoration: 'none',
+                color: '#10B981', fontWeight: 600, fontSize: '0.85rem',
+                transition: 'all 0.2s'
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <Wallet size={15} />
+                  <span>${(user.balance || 0).toFixed(2)}</span>
+                </div>
+                <div style={{ background: '#10B981', color: 'white', borderRadius: '50%', width: 20, height: 20, display: 'flex', alignItems: 'center', justifyContent: 'center', marginLeft: 4 }}>
+                  <Plus size={14} strokeWidth={3} />
+                </div>
               </Link>
               <button onClick={handleLogout} className="btn btn-ghost" style={{ fontSize: '0.85rem', padding: '8px 16px' }}>
                 Logout
@@ -142,8 +155,16 @@ const Navbar = () => {
                         <div style={{ fontSize: '0.8rem', color: '#6B7280' }}>{user.email}</div>
                       </div>
                     </div>
-                    <Link to="/dashboard" className="btn btn-primary" style={{ width: '100%', justifyContent: 'center', marginBottom: '8px' }} onClick={() => setMobileOpen(false)}>
-                      Go to Dashboard
+                    <Link to="/dashboard" style={{
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+                      background: 'rgba(16,185,129,0.1)', border: '1px solid rgba(16,185,129,0.2)',
+                      padding: '12px', borderRadius: '12px', textDecoration: 'none',
+                      color: '#10B981', fontWeight: 600, fontSize: '0.9rem', width: '100%', marginBottom: '8px'
+                    }} onClick={() => setMobileOpen(false)}>
+                      <Wallet size={16} /> ${(user.balance || 0).toFixed(2)}
+                      <div style={{ background: '#10B981', color: 'white', borderRadius: '50%', width: 22, height: 22, display: 'flex', alignItems: 'center', justifyContent: 'center', marginLeft: 4 }}>
+                        <Plus size={15} strokeWidth={3} />
+                      </div>
                     </Link>
                     <button onClick={() => { handleLogout(); setMobileOpen(false); }} className="btn btn-ghost" style={{ width: '100%', justifyContent: 'center' }}>
                       Logout
