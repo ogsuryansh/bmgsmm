@@ -42,22 +42,24 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Toggle Button */}
-        <button className="mobile-toggle" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Toggle menu">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <motion.path
-              animate={mobileOpen ? { d: "M18 6L6 18" } : { d: "M4 6h16" }}
-              transition={{ duration: 0.3 }}
+        <button className="mobile-toggle" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Toggle menu" style={{ border: 'none', background: 'transparent', cursor: 'pointer', padding: '8px' }}>
+          <motion.div animate={mobileOpen ? "open" : "closed"} style={{ width: 24, height: 16, position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', overflow: 'hidden' }}>
+            <motion.span
+              style={{ width: '100%', height: '2px', background: 'currentColor', borderRadius: '2px', transformOrigin: 'center' }}
+              variants={{ closed: { rotate: 0, y: 0 }, open: { rotate: 45, y: 7 } }}
+              transition={{ type: "spring", stiffness: 260, damping: 20 }}
             />
-            <motion.path
-              d="M4 12h16"
-              animate={mobileOpen ? { opacity: 0 } : { opacity: 1 }}
-              transition={{ duration: 0.3 }}
+            <motion.span
+              style={{ width: '100%', height: '2px', background: 'currentColor', borderRadius: '2px', transformOrigin: 'center' }}
+              variants={{ closed: { opacity: 1, x: 0 }, open: { opacity: 0, x: 20 } }}
+              transition={{ type: "spring", stiffness: 260, damping: 20 }}
             />
-            <motion.path
-              animate={mobileOpen ? { d: "M6 6l12 12" } : { d: "M4 18h16" }}
-              transition={{ duration: 0.3 }}
+            <motion.span
+              style={{ width: '100%', height: '2px', background: 'currentColor', borderRadius: '2px', transformOrigin: 'center' }}
+              variants={{ closed: { rotate: 0, y: 0 }, open: { rotate: -45, y: -7 } }}
+              transition={{ type: "spring", stiffness: 260, damping: 20 }}
             />
-          </svg>
+          </motion.div>
         </button>
       </div>
 
