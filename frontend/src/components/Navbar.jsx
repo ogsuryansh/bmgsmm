@@ -77,6 +77,9 @@ const Navbar = () => {
                   <Plus size={14} strokeWidth={3} />
                 </div>
               </Link>
+              <Link to="/dashboard" className="btn btn-primary" style={{ fontSize: '0.85rem', padding: '8px 16px', borderRadius: '100px' }}>
+                New Order
+              </Link>
               <button onClick={handleLogout} className="btn btn-ghost" style={{ fontSize: '0.85rem', padding: '8px 16px' }}>
                 Logout
               </button>
@@ -165,6 +168,9 @@ const Navbar = () => {
                       <div style={{ background: '#10B981', color: 'white', borderRadius: '50%', width: 22, height: 22, display: 'flex', alignItems: 'center', justifyContent: 'center', marginLeft: 4 }}>
                         <Plus size={15} strokeWidth={3} />
                       </div>
+                    </Link>
+                    <Link to="/dashboard" className="btn btn-primary" style={{ width: '100%', justifyContent: 'center', marginBottom: '8px' }} onClick={() => setMobileOpen(false)}>
+                      New Order
                     </Link>
                     <button onClick={() => { handleLogout(); setMobileOpen(false); }} className="btn btn-ghost" style={{ width: '100%', justifyContent: 'center' }}>
                       Logout
