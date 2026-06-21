@@ -46,7 +46,7 @@ const Navbar = () => {
           <a href="/#engine">Engine</a>
           <a href="/#demo">Demo</a>
           <a href="/#why">Why Us</a>
-          <a href="/#contact">Contact</a>
+          <Link to="/contact">Contact</Link>
         </div>
 
         <div className="nav-right">
@@ -140,7 +140,7 @@ const Navbar = () => {
                 <a href="/#engine" onClick={() => setMobileOpen(false)}>Engine</a>
                 <a href="/#demo" onClick={() => setMobileOpen(false)}>Demo</a>
                 <a href="/#why" onClick={() => setMobileOpen(false)}>Why Us</a>
-                <a href="/#contact" onClick={() => setMobileOpen(false)}>Contact</a>
+                <Link to="/contact" onClick={() => setMobileOpen(false)}>Contact</Link>
               </div>
               <div className="mobile-actions">
                 {user ? (

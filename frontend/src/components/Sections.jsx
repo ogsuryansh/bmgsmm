@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { FaInstagram, FaYoutube, FaFacebook, FaTelegramPlane, FaSpotify, FaTiktok, FaTwitter } from 'react-icons/fa';
 
 const stagger = {
@@ -158,19 +159,18 @@ const Footer = () => (
         <div>
           <div className="footer-col-title">Company</div>
           <ul className="footer-links">
-            <li>About BMG</li>
-            <li>Pricing</li>
+            <li><Link to="/about">About BMG</Link></li>
             <li>Blog</li>
-            <li>Contact</li>
+            <li><Link to="/contact">Contact</Link></li>
           </ul>
         </div>
         <div>
           <div className="footer-col-title">Legal</div>
           <ul className="footer-links">
-            <li>Terms of Service</li>
-            <li>Privacy Policy</li>
-            <li>Refund Policy</li>
-            <li>Cookie Policy</li>
+            <li><Link to="/terms">Terms of Service</Link></li>
+            <li><Link to="/privacy">Privacy Policy</Link></li>
+            <li><Link to="/refund">Refund Policy</Link></li>
+            <li><Link to="/cookies">Cookie Policy</Link></li>
           </ul>
         </div>
       </div>

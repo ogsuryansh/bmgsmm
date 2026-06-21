@@ -748,6 +748,45 @@ img { display: block; max-width: 100%; }
   .section { padding: 64px 0; }
 }
 
+/* ======== LEGAL PAGES ======== */
+.legal-content {
+  color: var(--text-secondary);
+  line-height: 1.8;
+  font-size: 1.05rem;
+}
+
+.legal-content h2 {
+  font-family: 'Sora', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-top: 40px;
+  margin-bottom: 16px;
+}
+
+.legal-content p {
+  margin-bottom: 16px;
+}
+
+.legal-content ul {
+  margin-bottom: 16px;
+  padding-left: 24px;
+}
+
+.legal-content li {
+  margin-bottom: 8px;
+}
+
+.legal-content a {
+  color: var(--primary);
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.legal-content a:hover {
+  color: var(--primary-dark);
+}
+
 @media (max-width: 480px) {
   .footer-grid { grid-template-columns: 1fr; }
 }

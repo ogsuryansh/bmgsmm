@@ -11,6 +11,7 @@ import { Testimonials, Services, CTA, Footer } from './components/Sections';
 import Auth from './components/Auth';
 import Admin from './components/Admin';
 import Dashboard from './components/Dashboard';
+import { About, Contact, Terms, RefundPolicy, PrivacyPolicy, CookiePolicy } from './components/LegalPages';
 
 const Landing = () => (
   <>
@@ -39,6 +40,12 @@ function App() {
         <Route path="/signup" element={<Auth />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/privacy" element={<PrivacyPolicy />} />
+        <Route path="/refund" element={<RefundPolicy />} />
+        <Route path="/cookies" element={<CookiePolicy />} />
       </Routes>
     </BrowserRouter>
   );
